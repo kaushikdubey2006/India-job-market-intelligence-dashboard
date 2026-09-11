@@ -1,0 +1,72 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
+  "name": "479a61f9d42dea3004d4",
+  "position": {
+    "x": 1655,
+    "y": 77.5,
+    "z": 3000,
+    "height": 247.5,
+    "width": 247.5,
+    "tabOrder": 3000
+  },
+  "visual": {
+    "visualType": "cardVisual",
+    "query": {
+      "queryState": {
+        "Data": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "JobData"
+                    }
+                  },
+                  "Property": "Applicants per Opening"
+                }
+              },
+              "queryRef": "JobData.Applicants per Opening",
+              "nativeQueryRef": "Applicants/Opening",
+              "displayName": "Applicants/Opening"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "JobData"
+                  }
+                },
+                "Property": "Applicants per Opening"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "visualContainerObjects": {
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

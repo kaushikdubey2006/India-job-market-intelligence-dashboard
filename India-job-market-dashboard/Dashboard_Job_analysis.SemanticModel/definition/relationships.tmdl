@@ -1,0 +1,5 @@
+relationship 7fb5e94e-a82d-4a17-b9f8-c915c364ff25
+	joinOnDateBehavior: datePartOnly
+	fromColumn: JobData.Date_Posted
+	toColumn: LocalDateTable_5c1664d3-566e-4b60-a8f8-743651425cac.Date
+

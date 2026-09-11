@@ -1,0 +1,181 @@
+table JobData
+	lineageTag: d28ae908-456d-4a4a-b8a2-442d1c69f0d3
+
+	measure 'Applicants per Opening' =
+			
+			DIVIDE(
+			    SUM(JobData[Applicants]),
+			    SUM(JobData[Openings])
+			)
+		lineageTag: 271cb146-c339-46d1-918e-8f80aa917d57
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Total Jobs' = DISTINCTCOUNT(JobData[Job_ID])
+		formatString: 0
+		lineageTag: 6a6e7be3-2fb6-44d0-a610-a0cc4b5d83ac
+
+	column Job_ID
+		dataType: string
+		lineageTag: abdd25b3-a9d1-48d3-ab17-0a31e4f8ff23
+		summarizeBy: none
+		sourceColumn: Job_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Job_Title
+		dataType: string
+		lineageTag: 16a5c853-f80b-4751-aa5c-6a970d174a3d
+		summarizeBy: none
+		sourceColumn: Job_Title
+
+		annotation SummarizationSetBy = Automatic
+
+	column Company
+		dataType: string
+		lineageTag: 850499cd-7b24-4919-8127-158cea0b5339
+		summarizeBy: none
+		sourceColumn: Company
+
+		annotation SummarizationSetBy = Automatic
+
+	column Company_Type
+		dataType: string
+		lineageTag: 11e95dac-4b1a-4211-8287-b90b5a6b0af0
+		summarizeBy: none
+		sourceColumn: Company_Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column Industry
+		dataType: string
+		lineageTag: 1dfa20c1-f10e-46a1-8a2e-5fbfd2c8a7fc
+		summarizeBy: none
+		sourceColumn: Industry
+
+		annotation SummarizationSetBy = Automatic
+
+	column City
+		dataType: string
+		lineageTag: aadc0bbe-cf7b-451f-ab60-e774a0c6095e
+		summarizeBy: none
+		sourceColumn: City
+
+		annotation SummarizationSetBy = Automatic
+
+	column Location_Tier
+		dataType: string
+		lineageTag: 0b2ad263-ccc1-4c06-bd15-a76560588886
+		summarizeBy: none
+		sourceColumn: Location_Tier
+
+		annotation SummarizationSetBy = Automatic
+
+	column Experience_Level
+		dataType: string
+		lineageTag: 706180b2-6334-4515-ae75-f282ae66c1a2
+		summarizeBy: none
+		sourceColumn: Experience_Level
+
+		annotation SummarizationSetBy = Automatic
+
+	column Job_Type
+		dataType: string
+		lineageTag: 244c403e-ecc6-4dd9-9863-eb0c1f515b96
+		summarizeBy: none
+		sourceColumn: Job_Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column Work_Mode
+		dataType: string
+		lineageTag: eff15f0f-e97d-4b0f-b693-da7da2f63c28
+		summarizeBy: none
+		sourceColumn: Work_Mode
+
+		annotation SummarizationSetBy = Automatic
+
+	column Salary_LPA
+		dataType: double
+		lineageTag: bb6cf74e-a8e6-45d5-970f-d8a062eea95e
+		summarizeBy: sum
+		sourceColumn: Salary_LPA
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Skills_Required
+		dataType: string
+		lineageTag: b3c9964e-a454-4c9f-8853-cc827d6aa285
+		summarizeBy: none
+		sourceColumn: Skills_Required
+
+		annotation SummarizationSetBy = Automatic
+
+	column Education_Required
+		dataType: string
+		lineageTag: 4862bbf3-91b6-4a55-a0af-0c770e978f94
+		summarizeBy: none
+		sourceColumn: Education_Required
+
+		annotation SummarizationSetBy = Automatic
+
+	column Openings
+		dataType: int64
+		formatString: 0
+		lineageTag: b95d406c-a46d-4220-a623-89e40289f2d6
+		summarizeBy: sum
+		sourceColumn: Openings
+
+		annotation SummarizationSetBy = Automatic
+
+	column Applicants
+		dataType: int64
+		formatString: 0
+		lineageTag: ba216d78-c2c3-4c25-aa95-495d6b96f7f0
+		summarizeBy: sum
+		sourceColumn: Applicants
+
+		annotation SummarizationSetBy = Automatic
+
+	column Company_Rating
+		dataType: double
+		lineageTag: b4d66f23-a5f4-4868-b4c3-abe82d570db6
+		summarizeBy: sum
+		sourceColumn: Company_Rating
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Date_Posted
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 784f45e1-9b0e-4849-b4cb-65e1c19912ff
+		summarizeBy: none
+		sourceColumn: Date_Posted
+
+		variation Variation
+			isDefault
+			relationship: 7fb5e94e-a82d-4a17-b9f8-c915c364ff25
+			defaultHierarchy: LocalDateTable_5c1664d3-566e-4b60-a8f8-743651425cac.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	partition JobData = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("C:\Users\Kaushik Dubey\Downloads\india_job_market_2024_2026.csv"),[Delimiter=",", Columns=17, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Job_ID", type text}, {"Job_Title", type text}, {"Company", type text}, {"Company_Type", type text}, {"Industry", type text}, {"City", type text}, {"Location_Tier", type text}, {"Experience_Level", type text}, {"Job_Type", type text}, {"Work_Mode", type text}, {"Salary_LPA", type number}, {"Skills_Required", type text}, {"Education_Required", type text}, {"Openings", Int64.Type}, {"Applicants", Int64.Type}, {"Company_Rating", type number}, {"Date_Posted", type date}})
+				in
+				    #"Changed Type"
+
+	changedProperty = Name
+
+	annotation PBI_ResultType = Table
+
